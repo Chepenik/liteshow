@@ -116,6 +116,24 @@ export const FEATURED_TRACKS = [
   { id: '1234661', name: 'Waves', artist_name: 'studyBreak', duration: 252, image: 'https://usercontent.jamendo.com?type=album&id=148029&width=300&trackid=1234661' },
 ] as const;
 
+// Pulse sphere
+export const SPHERE_RADIUS = 2.2;
+export const SPHERE_DETAIL = 5;           // IcosahedronGeometry detail → 2562 verts
+export const SPHERE_WIREFRAME_DETAIL = 3; // Lower detail → visible facets
+export const SPHERE_PULSE_BASS = 0.35;
+export const SPHERE_PULSE_SUBBASS = 0.25;
+export const SPHERE_DISPLACEMENT_AMP = 0.6;
+export const SPHERE_FRESNEL_POWER = 2.5;
+export const SPHERE_FRESNEL_INTENSITY = 1.2;
+export const SPHERE_BEAT_PUNCH = 0.20;
+export const SPHERE_HARD_BEAT_PUNCH = 0.40;
+export const SPHERE_NOISE_SPEED = 0.4;
+export const SPHERE_EMISSIVE_BASE = 0.15;
+export const SPHERE_EMISSIVE_ENERGY = 0.6;
+export const SPHERE_WIREFRAME_OPACITY = 0.18;
+export const SPHERE_WIREFRAME_BEAT_BOOST = 0.6;
+export const SPHERE_Y = 3.5;             // Same height as flower group
+
 // Jamendo API defaults (client-side safe — no API key)
 export const JAMENDO_SEARCH_LIMIT = 10;
 export const JAMENDO_MIN_QUERY_LENGTH = 2;

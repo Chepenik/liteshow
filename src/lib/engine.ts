@@ -25,6 +25,7 @@ import {
 import { buildParticles, updateParticles, updateTrails, type ParticleSystem, type Trail } from './particles';
 import { createFxState, updateFx, triggerFx, type FxState } from './fx';
 import { createCameraSystem, updateCamera, handleMouseMove, handleDragStart, handleDragEnd, type CameraSystem } from './camera';
+import { buildPulseSphere, updatePulseSphere, type PulseSphere } from './sphere';
 
 export class LiteshowEngine {
   audio = new AudioAnalyzer();
@@ -57,7 +58,7 @@ export class LiteshowEngine {
   private metatronLines!: THREE.LineSegments;
   private metatronDots!: THREE.Points;
   private outerCircle!: THREE.Line;
-  private sacredGlow!: THREE.Mesh;
+  private pulseSphere!: PulseSphere;
   private crosses: THREE.Group[] = [];
   private bitcoins: THREE.Sprite[] = [];
   private lasers: THREE.Mesh[] = [];
@@ -130,9 +131,10 @@ export class LiteshowEngine {
     this.metatronLines = flower.metatronLines;
     this.metatronDots = flower.metatronDots;
     this.outerCircle = flower.outerCircle;
-    this.sacredGlow = flower.sacredGlow;
     this.scene.add(this.flowerGroup);
-    this.scene.add(this.sacredGlow);
+    // Pulsing 3D sphere replaces the old sacredGlow
+    this.pulseSphere = buildPulseSphere();
+    this.scene.add(this.pulseSphere.group);
 
     this.crosses = buildCrosses();
     this.crosses.forEach(c => this.scene.add(c));
@@ -268,6 +270,11 @@ export class LiteshowEngine {
     updateFx(this.fx, dt);
     this.updateColors(dt);
     this.updateFlower(dt);
+    updatePulseSphere(
+      this.pulseSphere, dt, this.time,
+      this.audio.smooth, this.audio.isBeat, this.audio.isHardBeat,
+      this.fx, this.activeColor, this.accentColor,
+    );
     this.updateCrosses(dt);
     this.updateBitcoins(dt);
     this.updateLasers(dt);
@@ -329,7 +336,7 @@ export class LiteshowEngine {
     for (const fc of this.flowerCircles) {
       const dist = Math.hypot(fc.cx, fc.cy);
       const wave = Math.sin(this.time * 2 + dist * 0.8) * 0.15;
-      const baseOp = fc.layer === 1 ? 0.2 : 0.08;
+      const baseOp = fc.layer === 1 ? 0.25 : 0.12;
       (fc.mesh.material as THREE.LineBasicMaterial).opacity = Math.min(0.4, baseOp + b.energy * 0.12 + wave * 0.5 + divineBoost * 0.08);
       (fc.mesh.material as THREE.LineBasicMaterial).color.copy(this.activeColor);
     }
@@ -341,10 +348,6 @@ export class LiteshowEngine {
     dotMat.size = 0.12 + b.bass * 0.15;
     (this.outerCircle.material as THREE.LineBasicMaterial).color.copy(this.activeColor);
     (this.outerCircle.material as THREE.LineBasicMaterial).opacity = 0.08 + b.bass * 0.2;
-    const glowMat = this.sacredGlow.material as THREE.MeshBasicMaterial;
-    glowMat.color.copy(this.activeColor);
-    glowMat.opacity = 0.02 + b.energy * 0.1 + divineBoost * 0.15;
-    this.sacredGlow.scale.setScalar(1 + b.bass * 0.5 + divineBoost);
     this.flowerGroup.rotation.x = this.cam.mouseInfluence.y * 0.3;
     this.flowerGroup.rotation.y += this.cam.mouseInfluence.x * dt * 0.5;
   }
