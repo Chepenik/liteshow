@@ -252,6 +252,41 @@ body.ui-idle #mouse-hint {
   opacity: 0.05 !important;
   transition: opacity 1.5s !important;
 }
+body.ui-idle #ref-links {
+  opacity: 0.15 !important;
+  transition: opacity 1.5s !important;
+}
+
+/* ─── Ref Links (top-right) ─── */
+#ref-links {
+  position: fixed; top: 14px; right: 16px; z-index: 50;
+  display: flex; gap: 6px;
+}
+.ref-link {
+  display: flex; align-items: center; gap: 5px;
+  padding: 6px 11px; border-radius: 10px;
+  background: rgba(10,5,20,0.45); backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,215,0,0.07);
+  color: rgba(255,215,0,0.35); text-decoration: none;
+  font-size: 0.58rem; letter-spacing: 0.06em;
+  font-family: var(--font-inter), 'Inter', sans-serif;
+  transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  cursor: pointer;
+}
+.ref-link:hover {
+  background: rgba(255,215,0,0.06); border-color: rgba(255,215,0,0.3);
+  color: #FFD700;
+  box-shadow: 0 0 24px rgba(255,215,0,0.08), 0 0 6px rgba(255,215,0,0.04) inset;
+  transform: translateY(-1px);
+}
+.ref-link:active { transform: scale(0.97); }
+.ref-icon { font-size: 0.75rem; line-height: 1; }
+.ref-label { white-space: nowrap; }
+@media (max-width: 640px) {
+  #ref-links { flex-direction: column; gap: 4px; }
+  .ref-label { display: none; }
+  .ref-link { padding: 6px 8px; }
+}
 
 /* ─── Body Drop Overlay ─── */
 #body-drop-overlay {

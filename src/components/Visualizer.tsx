@@ -8,6 +8,7 @@ import Transport from './Transport';
 import DJPad from './DJPad';
 import HintOverlay from './HintOverlay';
 import FullscreenButton from './FullscreenButton';
+import RefLinks from './RefLinks';
 
 export default function Visualizer() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -240,6 +241,7 @@ export default function Visualizer() {
 
       <DJPad engineRef={engineRef} visible={uiVisible} />
       <FullscreenButton visible={uiVisible} />
+      <RefLinks />
 
       <div id="mouse-hint" style={{ opacity: hintOpacity }}>
         move mouse to interact &middot; click for beats &middot; drag to orbit
